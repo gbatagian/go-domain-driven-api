@@ -14,13 +14,12 @@ This sample project presents a custom made domain driven API architecture in Gol
 
 ### 3. Project Setup
 
-1. You need to have Golang installed on your machine.
-    - If not installed, download from: https://go.dev/dl/
+1. You need to have `Docker Desktop` installed and running on your machine.
 2. Clone the project's repository.
 3. Change directory to the projects root directory.
-4. Execute on terminal: `make run`
+4. Execute on terminal: `docker compose up`
 5. If you have postman you can import the postman collection present in `docs` folder and send requests to the API endpoints.
     - Alternatively, you can try the following commands on a separate terminal window:
         - `curl --location --request GET 'http://localhost:8080/healthcheck'`
         - `curl --location --request POST 'http://localhost:8080/greetme' --header 'Content-Type:application/json' --data-raw '{"name": "George","title": "Mr."}'`
-6. During the development process, you can also run: `make test` or `make coverage` to test you code and get a coverage report.
+6. During development (outside the Docker container) you can also use the commands: `make run`, `make test` and `make coverage` to run the service, test you code and get a coverage report.
