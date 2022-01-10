@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
   sample_api:
-    image: golang:1.17.5-bullseye
+    image: golang:1.17.6-bullseye
     build: .
     volumes:
       - .:/app/go_service
@@ -14,4 +14,3 @@ services:
 
 volumes:
   go_environment:
-    name: go_environment
