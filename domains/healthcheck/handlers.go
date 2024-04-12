@@ -1,20 +1,17 @@
 package healthcheck
 
 import (
+	"encoding/json"
 	"net/http"
-
-	"github.com/gin-gonic/gin"
 )
 
-func HealthcheckGet() gin.HandlerFunc {
+func HealthCheckGet() http.HandlerFunc {
 
-	return func(context *gin.Context) {
-		context.JSON(
-			http.StatusOK,
-			map[string]string{
-				"Feeling": "Great",
-			},
-		)
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
+
+		json.NewEncoder(w).Encode(map[string]string{"feeling": "great"})
 	}
 
 }

@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"io"
 	"strings"
 	"testing"
@@ -36,7 +35,6 @@ func TestToJsonBytesStream(t *testing.T) {
 	}
 
 	jsonBytesStream := ToJsonBytesStream(sample_map)
-	fmt.Print(jsonBytesStream)
 	buffer := new(strings.Builder)
 	io.Copy(buffer, jsonBytesStream)
 	expectedJsonString := `{"key1":"value1","key2":1,"key3":1.5999,"key4":false,"key5":null}`

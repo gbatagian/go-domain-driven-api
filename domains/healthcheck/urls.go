@@ -2,26 +2,18 @@ package healthcheck
 
 import (
 	"go-domain-driven-api/utils"
-
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-var URLS []utils.URL
-var IncludeDomainURLS (func(router *gin.Engine) *gin.Engine)
-
-func init() {
-
+var URLS = []utils.URL{
 	// All the domain urls must be initialized here.
-	URLS = []utils.URL{
-		{
-			Method:     "GET",
-			Path:       "/healthcheck",
-			Controller: HealthcheckGet(),
-		},
-	}
+	{
+		Method:  "GET",
+		Path:    "/healthcheck",
+		Handler: HealthCheckGet(),
+	},
+}
 
-	IncludeDomainURLS = func(router *gin.Engine) *gin.Engine {
-		return utils.IncludeURLS(router, URLS)
-	}
-
+var IncludeDomainURLS = func(handler *http.ServeMux) {
+	utils.IncludeURLS(handler, URLS)
 }

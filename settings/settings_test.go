@@ -2,12 +2,10 @@ package settings
 
 import (
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestEngineExists(t *testing.T) {
-
-	assert.NotNil(t, ENGINE)
-
+	if DefaultSettings.Host != "127.0.0.1" && DefaultSettings.Port != 8080 {
+		t.Errorf("Unexpected default configuration for HOST and PORT provided")
+	}
 }

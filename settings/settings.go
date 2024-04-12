@@ -1,11 +1,11 @@
 package settings
 
-import "github.com/gin-gonic/gin"
+type Settings struct {
+	Host string
+	Port int
+}
 
-var ENGINE *gin.Engine
-
-func init() {
-
-	ENGINE = gin.Default()
-
+var DefaultSettings = Settings{
+	Host: "127.0.0.1",
+	Port: 8080,
 }
