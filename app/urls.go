@@ -5,9 +5,9 @@ import (
 )
 
 func (app *App) RegisterRoutes() {
-	// Healthcheck endpoint
+	// healthCheck endpoint
 	healthcheck.IncludeDomainURLS(app.Handler)
 
-	// Greetme endpoint
+	// GreetMe endpoint
 	// greetme.IncludeDomainURLS(app.Handler)
 }

@@ -24,11 +24,11 @@ func TestIncludeURLS(t *testing.T) {
 			Handler: func(w http.ResponseWriter, r *http.Request) {},
 		},
 	}
-	testRouter := http.NewServeMux()
+	testHandler := http.NewServeMux()
 
-	IncludeURLS(testRouter, urls)
+	IncludeURLS(testHandler, urls)
 
-	routingIndex := reflect.ValueOf(*testRouter).FieldByName("index")
+	routingIndex := reflect.ValueOf(*testHandler).FieldByName("index")
 	segments := routingIndex.FieldByName("segments") // the registered routes
 
 	if len(segments.MapKeys()) != 3 {

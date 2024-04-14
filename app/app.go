@@ -18,9 +18,10 @@ func (a *App) Run() {
 }
 
 func RunWithSettings(s settings.Settings) {
-	handler := http.NewServeMux()
-
-	app := App{Addr: fmt.Sprintf("%s:%d", s.Host, s.Port), Handler: handler}
+	app := App{
+		Addr:    fmt.Sprintf("%s:%d", s.Host, s.Port),
+		Handler: s.Handler,
+	}
 	app.RegisterRoutes()
 	app.Run()
 }

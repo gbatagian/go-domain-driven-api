@@ -1,39 +1,36 @@
 package healthcheck
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-domain-driven-api/settings"
-	"go-domain-driven-api/utils"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 )
 
-var baseURL string
-var testRouter *gin.Engine
-
-func init() {
-
-	baseURL = "/healthcheck"
-	testRouter = settings.ENGINE
-	testRouter = IncludeDomainURLS(testRouter)
-
-}
-
 func TestSuccessfulCall(t *testing.T) {
+	// arrange
+	baseURL := "/healthcheck"
+	testHandler := settings.DefaultSettings.Handler
+	IncludeDomainURLS(testHandler)
 
-	req, err := http.NewRequest("GET", baseURL, nil)
-	assert.Nil(t, err)
-
+	req, _ := http.NewRequest("GET", baseURL, nil)
 	resp := httptest.NewRecorder()
-	testRouter.ServeHTTP(resp, req)
-	assert.Equal(t, resp.Code, 200)
 
-	expected_response := map[string]interface{}{
-		"Feeling": "Great",
+	// act
+	testHandler.ServeHTTP(resp, req)
+
+	// assert response code
+	if resp.Code != 200 {
+		t.Errorf("GET /healthcheck request unsuccessful")
 	}
-	assert.Equal(t, resp.Body.String(), utils.ToJsonString(expected_response))
 
+	// assert response payload
+	var responseBody map[string]string
+	json.NewDecoder(resp.Body).Decode(&responseBody)
+
+	if fmt.Sprint(responseBody) != fmt.Sprint(map[string]string{"feeling": "great"}) {
+		t.Errorf(fmt.Sprintf("Unexpected GET /healthcheck response payload: %v", responseBody))
+	}
 }

@@ -14,6 +14,6 @@ var URLS = []utils.URL{
 	},
 }
 
-var IncludeDomainURLS = func(handler *http.ServeMux) {
+func IncludeDomainURLS(handler *http.ServeMux) {
 	utils.IncludeURLS(handler, URLS)
 }
