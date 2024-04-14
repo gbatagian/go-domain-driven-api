@@ -1,36 +1,34 @@
 package greetme
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"strings"
-
-	"github.com/gin-gonic/gin"
 )
 
-func GreetmePost() gin.HandlerFunc {
+func GreetMePost() http.HandlerFunc {
+	var err error
 
-	return func(context *gin.Context) {
-
-		// Serialize request payload.
-		var requestBody GreetmeSerializer
-		err := context.BindJSON(&requestBody)
+	return func(w http.ResponseWriter, r *http.Request) {
+		var requestPayload GreetMeRequestSchema
+		err = json.NewDecoder(r.Body).Decode(&requestPayload)
 		if err != nil {
-			log.Fatal(err)
+			log.Printf("Error decoding request body: %s", err.Error())
+			http.Error(w, "Invalid request body", http.StatusBadRequest)
+			return
 		}
 
-		// Generate respond.
-		context.JSON(
-			http.StatusOK,
-			map[string]string{
-				"Greetings": strings.Trim(
-					fmt.Sprintf("%s %s", requestBody.Title, requestBody.Name),
-					" ",
-				),
-			},
-		)
+		err = json.NewEncoder(w).Encode(map[string]string{
+			"Greetings": fmt.Sprintf("%s %s", requestPayload.Title, requestPayload.Name),
+		})
+		if err != nil {
+			log.Printf("Error encoding response: %s", err.Error())
+			http.Error(w, "Internal server error", http.StatusInternalServerError)
+			return
+		}
 
+		w.WriteHeader(http.StatusOK)
+		w.Header().Set("Content-Type", "application/json")
 	}
-
 }

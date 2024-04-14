@@ -2,26 +2,18 @@ package greetme
 
 import (
 	"go-domain-driven-api/utils"
-
-	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
-var URLS []utils.URL
-var IncludeDomainURLS (func(router *gin.Engine) *gin.Engine)
-
-func init() {
-
+var URLS = []utils.URL{
 	// All the domain urls must be initialized here.
-	URLS = []utils.URL{
-		{
-			Method:     "POST",
-			Path:       "/greetme",
-			Controller: GreetmePost(),
-		},
-	}
+	{
+		Method:  "POST",
+		Path:    "/greetme",
+		Handler: GreetMePost(),
+	},
+}
 
-	IncludeDomainURLS = func(router *gin.Engine) *gin.Engine {
-		return utils.IncludeURLS(router, URLS)
-	}
-
+func IncludeDomainURLS(handler *http.ServeMux) {
+	utils.IncludeURLS(handler, URLS)
 }

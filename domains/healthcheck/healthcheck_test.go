@@ -27,10 +27,10 @@ func TestSuccessfulCall(t *testing.T) {
 	}
 
 	// assert response payload
-	var responseBody map[string]string
-	json.NewDecoder(resp.Body).Decode(&responseBody)
+	var responsePayload map[string]string
+	json.NewDecoder(resp.Body).Decode(&responsePayload)
 
-	if fmt.Sprint(responseBody) != fmt.Sprint(map[string]string{"feeling": "great"}) {
-		t.Errorf(fmt.Sprintf("Unexpected GET /healthcheck response payload: %v", responseBody))
+	if fmt.Sprint(responsePayload) != fmt.Sprint(map[string]string{"feeling": "great"}) {
+		t.Errorf(fmt.Sprintf("Unexpected GET /healthcheck response payload: %v", responsePayload))
 	}
 }
