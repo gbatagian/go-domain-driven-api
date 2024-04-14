@@ -3,13 +3,13 @@ package settings
 import "net/http"
 
 type Settings struct {
-	Host    string
-	Port    int
-	Handler *http.ServeMux
+	Host   string
+	Port   int
+	Router *http.ServeMux
 }
 
 var DefaultSettings = Settings{
-	Host:    "127.0.0.1",
-	Port:    8080,
-	Handler: http.NewServeMux(),
+	Host:   "0.0.0.0",
+	Port:   8080,
+	Router: http.NewServeMux(),
 }

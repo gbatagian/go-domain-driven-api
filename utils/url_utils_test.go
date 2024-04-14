@@ -26,7 +26,7 @@ func TestIncludeURLS(t *testing.T) {
 	}
 	testHandler := http.NewServeMux()
 
-	IncludeURLS(testHandler, urls)
+	RegisterURLS(testHandler, urls)
 
 	routingIndex := reflect.ValueOf(*testHandler).FieldByName("index")
 	segments := routingIndex.FieldByName("segments") // the registered routes

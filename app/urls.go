@@ -5,10 +5,10 @@ import (
 	"go-domain-driven-api/domains/healthcheck"
 )
 
-func (app *App) RegisterRoutes() {
+func (app *App) RegisterURLS() {
 	// healthCheck endpoint
-	healthcheck.IncludeDomainURLS(app.Handler)
+	healthcheck.RegisterDomainURLS(app.Router)
 
 	// GreetMe endpoint
-	greetme.IncludeDomainURLS(app.Handler)
+	greetme.RegisterDomainURLS(app.Router)
 }

@@ -11,8 +11,8 @@ type URL struct {
 	Handler http.HandlerFunc
 }
 
-func IncludeURLS(hander *http.ServeMux, urls []URL) {
+func RegisterURLS(router *http.ServeMux, urls []URL) {
 	for _, url := range urls {
-		hander.HandleFunc(fmt.Sprintf("%s %s", url.Method, url.Path), url.Handler)
+		router.HandleFunc(fmt.Sprintf("%s %s", url.Method, url.Path), url.Handler)
 	}
 }

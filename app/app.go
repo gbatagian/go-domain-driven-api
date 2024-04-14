@@ -8,20 +8,20 @@ import (
 )
 
 type App struct {
-	Addr    string
-	Handler *http.ServeMux
+	Addr   string
+	Router *http.ServeMux
 }
 
 func (a *App) Run() {
-	s := http.Server{Addr: a.Addr, Handler: a.Handler}
+	s := http.Server{Addr: a.Addr, Handler: a.Router}
 	s.ListenAndServe()
 }
 
 func RunWithSettings(s settings.Settings) {
 	app := App{
-		Addr:    fmt.Sprintf("%s:%d", s.Host, s.Port),
-		Handler: s.Handler,
+		Addr:   fmt.Sprintf("%s:%d", s.Host, s.Port),
+		Router: s.Router,
 	}
-	app.RegisterRoutes()
+	app.RegisterURLS()
 	app.Run()
 }

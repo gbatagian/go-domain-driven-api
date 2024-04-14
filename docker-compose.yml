@@ -2,13 +2,13 @@ version: "3.7"
 
 services:
   sample_api:
-    image: golang:1.17.6-bullseye
+    image: golang:1.22-bullseye
     build: .
     volumes:
       - .:/app/go_service
       - go_environment:/go
     working_dir: /app/go_service
-    command: bash -c "go mod download && go run ."
+    command: go run main.go
     ports: 
       - 8080:8080
 

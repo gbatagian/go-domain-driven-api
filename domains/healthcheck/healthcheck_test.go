@@ -12,8 +12,8 @@ import (
 func TestSuccessfulCall(t *testing.T) {
 	// arrange
 	baseURL := "/healthcheck"
-	testHandler := settings.DefaultSettings.Handler
-	IncludeDomainURLS(testHandler)
+	testHandler := settings.DefaultSettings.Router
+	RegisterDomainURLS(testHandler)
 
 	req, _ := http.NewRequest("GET", baseURL, nil)
 	resp := httptest.NewRecorder()

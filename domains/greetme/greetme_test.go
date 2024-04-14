@@ -13,8 +13,8 @@ import (
 func TestSuccessfulCall(t *testing.T) {
 	// arrange
 	baseURL := "/greetme"
-	testHandler := settings.DefaultSettings.Handler
-	IncludeDomainURLS(testHandler)
+	testHandler := settings.DefaultSettings.Router
+	RegisterDomainURLS(testHandler)
 
 	requestPayload := map[string]string{
 		"name":  "George",

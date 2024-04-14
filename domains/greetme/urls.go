@@ -14,6 +14,6 @@ var URLS = []utils.URL{
 	},
 }
 
-func IncludeDomainURLS(handler *http.ServeMux) {
-	utils.IncludeURLS(handler, URLS)
+func RegisterDomainURLS(router *http.ServeMux) {
+	utils.RegisterURLS(router, URLS)
 }
