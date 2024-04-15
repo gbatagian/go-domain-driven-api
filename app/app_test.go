@@ -14,7 +14,7 @@ func TestAppCreation(t *testing.T) {
 	routingIndex := reflect.ValueOf(*handler).FieldByName("index")
 	segments := routingIndex.FieldByName("segments") // the registered routes
 
-	if len(segments.MapKeys()) != 1 {
+	if len(segments.MapKeys()) != 2 {
 		t.Errorf("Expected routes not registered")
 	}
 }
