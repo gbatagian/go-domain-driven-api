@@ -6,5 +6,5 @@ import (
 )
 
 func main() {
-	app.RunWithSettings(settings.DefaultSettings)
+	app.RunWithSettings(settings.EnvSettings)
 }

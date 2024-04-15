@@ -1,11 +1,12 @@
 package settings
 
 import (
+	"os"
 	"testing"
 )
 
 func TestEngineExists(t *testing.T) {
-	if DefaultSettings.Host != "127.0.0.1" && DefaultSettings.Port != 8080 {
+	if DefaultSettings.Host != os.Getenv("API_HOST") && DefaultSettings.Port != os.Getenv("API_PORT") {
 		t.Errorf("Unexpected default configuration for HOST and PORT provided")
 	}
 }
