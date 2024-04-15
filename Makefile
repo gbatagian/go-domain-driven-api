@@ -6,3 +6,6 @@ test:
 
 coverage:
 	go test -cover ./...
+
+restart:
+	docker compose down && docker network prune && docker compose up
