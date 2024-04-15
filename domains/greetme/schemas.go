@@ -1,6 +1,6 @@
 package greetme
 
-type GreetmeSerializer struct {
+type GreetMeRequestSchema struct {
 	Title string `json:"title"`
 	Name  string `json:"name"`
 }

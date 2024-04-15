@@ -1,5 +1,5 @@
 run:
-	go run .
+	source .env && go run .
 
 test:
 	go test ./...

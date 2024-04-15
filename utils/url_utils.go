@@ -1,25 +1,18 @@
 package utils
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"net/http"
+)
 
 type URL struct {
-	Method     string
-	Path       string
-	Controller gin.HandlerFunc
+	Method  string
+	Path    string
+	Handler http.HandlerFunc
 }
 
-func IncludeURLS(router *gin.Engine, urls []URL) *gin.Engine {
-
+func RegisterURLS(router *http.ServeMux, urls []URL) {
 	for _, url := range urls {
-
-		if url.Method == "GET" {
-			router.GET(url.Path, url.Controller)
-		} else if url.Method == "POST" {
-			router.POST(url.Path, url.Controller)
-		}
-
+		router.HandleFunc(fmt.Sprintf("%s %s", url.Method, url.Path), url.Handler)
 	}
-
-	return router
-
 }

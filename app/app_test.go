@@ -1,29 +1,20 @@
 package app
 
 import (
-	"go-domain-driven-api/settings"
+	"net/http"
+	"reflect"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestAppCreation(t *testing.T) {
+	handler := http.NewServeMux()
+	app := App{Addr: "127.0.0.1:8080", Router: handler}
+	app.RegisterURLS()
 
-	_app := App{Router: settings.ENGINE}
-	_app.GetRoutes()
+	routingIndex := reflect.ValueOf(*handler).FieldByName("index")
+	segments := routingIndex.FieldByName("segments") // the registered routes
 
-	routes := _app.Router.Routes()
-	expected_number_of_routes := 2
-	assert.Equal(t, len(routes), expected_number_of_routes)
-
-	var urls []string
-	for _, route := range routes {
-		urls = append(urls, route.Path)
+	if len(segments.MapKeys()) != 1 {
+		t.Errorf("Expected routes not registered")
 	}
-	expected_urls := []string{
-		"/healthcheck",
-		"/greetme",
-	}
-	assert.Equal(t, urls, expected_urls)
-
 }

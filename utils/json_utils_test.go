@@ -1,16 +1,13 @@
 package utils
 
 import (
-	"fmt"
-	"io"
+	"bytes"
 	"strings"
 	"testing"
-
-	"github.com/stretchr/testify/assert"
 )
 
 func TestToJsonString(t *testing.T) {
-
+	// arrange
 	sample_map := map[string]interface{}{
 		"key1": "value1",
 		"key2": 1,
@@ -18,15 +15,20 @@ func TestToJsonString(t *testing.T) {
 		"key4": false,
 		"key5": nil,
 	}
-
-	jsonString := ToJsonString(sample_map)
 	expectedJsonString := `{"key1":"value1","key2":1,"key3":1.5999,"key4":false,"key5":null}`
-	assert.Equal(t, jsonString, expectedJsonString)
+
+	// act
+	jsonString := ToJsonString(sample_map)
+
+	// assert
+	if jsonString != expectedJsonString {
+		t.Errorf("Unexpected json string: %v", jsonString)
+	}
 
 }
 
 func TestToJsonBytesStream(t *testing.T) {
-
+	//arrange
 	sample_map := map[string]interface{}{
 		"key1": "value1",
 		"key2": 1,
@@ -35,11 +37,13 @@ func TestToJsonBytesStream(t *testing.T) {
 		"key5": nil,
 	}
 
-	jsonBytesStream := ToJsonBytesStream(sample_map)
-	fmt.Print(jsonBytesStream)
-	buffer := new(strings.Builder)
-	io.Copy(buffer, jsonBytesStream)
 	expectedJsonString := `{"key1":"value1","key2":1,"key3":1.5999,"key4":false,"key5":null}`
-	assert.Equal(t, strings.Trim(buffer.String(), "\n"), expectedJsonString)
 
+	// act
+	jsonBytesStream := ToJsonBytesStream(sample_map)
+	jsonBytesString := jsonBytesStream.(*bytes.Buffer).String()
+
+	if strings.TrimSuffix(jsonBytesString, "\n") != expectedJsonString {
+		t.Errorf("Unexpected json string: %v", jsonBytesString)
+	}
 }

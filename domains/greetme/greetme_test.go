@@ -1,43 +1,44 @@
 package greetme
 
 import (
+	"encoding/json"
+	"fmt"
 	"go-domain-driven-api/settings"
 	"go-domain-driven-api/utils"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-
-	"github.com/gin-gonic/gin"
-	"github.com/stretchr/testify/assert"
 )
 
-var baseURL string
-var testRouter *gin.Engine
-
-func init() {
-
-	baseURL = "/greetme"
-	testRouter = settings.ENGINE
-	testRouter = IncludeDomainURLS(testRouter)
-
-}
-
 func TestSuccessfulCall(t *testing.T) {
+	// arrange
+	baseURL := "/greetme"
+	testHandler := settings.DefaultSettings.Router
+	RegisterDomainURLS(testHandler)
 
-	request_body := map[string]interface{}{
+	requestPayload := map[string]string{
 		"name":  "George",
 		"title": "Mr.",
 	}
-	req, err := http.NewRequest("POST", baseURL, utils.ToJsonBytesStream((request_body)))
-	assert.Nil(t, err)
-
+	req, _ := http.NewRequest(
+		"POST",
+		baseURL,
+		utils.ToJsonBytesStream(requestPayload),
+	)
 	resp := httptest.NewRecorder()
-	testRouter.ServeHTTP(resp, req)
-	assert.Equal(t, resp.Code, 200)
 
-	expected_response := map[string]interface{}{
-		"Greetings": "Mr. George",
+	// act
+	testHandler.ServeHTTP(resp, req)
+
+	// assert response code
+	if resp.Code != 200 {
+		t.Errorf("POST /greetme request unsuccessful")
 	}
-	assert.Equal(t, resp.Body.String(), utils.ToJsonString(expected_response))
 
+	var responsePayload map[string]string
+	json.NewDecoder(resp.Body).Decode(&responsePayload)
+
+	if fmt.Sprint(responsePayload) != fmt.Sprint(map[string]string{"Greetings": "Mr. George"}) {
+		t.Errorf(fmt.Sprintf("Unexpected POST /greetme response payload: %v", responsePayload))
+	}
 }
