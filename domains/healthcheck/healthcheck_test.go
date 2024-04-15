@@ -12,14 +12,14 @@ import (
 func TestSuccessfulCall(t *testing.T) {
 	// arrange
 	baseURL := "/healthcheck"
-	testHandler := settings.DefaultSettings.Router
-	RegisterDomainURLS(testHandler)
+	router := settings.DefaultSettings.Router
+	RegisterDomainURLS(router)
 
 	req, _ := http.NewRequest("GET", baseURL, nil)
 	resp := httptest.NewRecorder()
 
 	// act
-	testHandler.ServeHTTP(resp, req)
+	router.ServeHTTP(resp, req)
 
 	// assert response code
 	if resp.Code != 200 {

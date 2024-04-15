@@ -13,8 +13,8 @@ import (
 func TestSuccessfulCall(t *testing.T) {
 	// arrange
 	baseURL := "/greetme"
-	testHandler := settings.DefaultSettings.Router
-	RegisterDomainURLS(testHandler)
+	router := settings.DefaultSettings.Router
+	RegisterDomainURLS(router)
 
 	requestPayload := map[string]string{
 		"name":  "George",
@@ -28,13 +28,14 @@ func TestSuccessfulCall(t *testing.T) {
 	resp := httptest.NewRecorder()
 
 	// act
-	testHandler.ServeHTTP(resp, req)
+	router.ServeHTTP(resp, req)
 
 	// assert response code
 	if resp.Code != 200 {
 		t.Errorf("POST /greetme request unsuccessful")
 	}
 
+	// assert response payload
 	var responsePayload map[string]string
 	json.NewDecoder(resp.Body).Decode(&responsePayload)
 
